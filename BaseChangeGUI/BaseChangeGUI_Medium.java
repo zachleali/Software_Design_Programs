@@ -2,36 +2,94 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BaseChangeGUI_Medium extends JPanel
 {
-    private char[] numbers = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'};
-    private String[] numberString = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","X","Y","Z"};
-    private int[] integers = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32};
-    private final int[] intNumbers = {0,1,2,3,4,5,6,7,8,9};
+    private int[] intNumbers = {0,1,2,3,4,5,6,7,8,9};
+    private List<Character> charArray;
+    private List<String> stringArray;
+    private List<Integer> intArray;
 
-    JLabel currentBaseLabel;
-    JLabel newBaseLabel;
-    JTextField currentBase;
-    JTextField newBase;
+    private JLabel currentBaseLabel;
+    private JLabel newBaseLabel;
 
+    private JTextField currentBase;
+    private JTextField newBase;
 
-    JLabel numberLabel;
-    JTextField numberField;
+    private JLabel numberLabel;
+    private JTextField numberField;
 
-    JLabel decimalLabel;
-    JTextField decimalField;
+    private JLabel decimalLabel;
+    private JTextField decimalField;
 
-    JTextArea directions;
+    private JTextArea directions;
+
+    public BaseChangeGUI_Medium()
+    {
+        super.setBackground(Color.LIGHT_GRAY);
+        numberLabel = new JLabel("Number");
+        numberField = new JTextField(20);
+
+        currentBaseLabel = new JLabel("Current Base");
+        newBaseLabel = new JLabel("New Base");
+        currentBase = new JTextField(20);
+        newBase = new JTextField(20);
+
+        currentBaseLabel.setLabelFor(currentBase);
+        newBaseLabel.setLabelFor(newBase);
+
+        decimalLabel = new JLabel("Output");
+        decimalField = new JTextField(20);
+        decimalField.setEditable(false);
+
+        directions = new JTextArea(2,5);
+        directions.setText("Press ENTER with cursor in \n'Number' input box.");
+        directions.setEditable(false);
+
+        KeyListenerText keyHandler = new KeyListenerText();
+        numberField.addKeyListener(keyHandler);
+
+        // Character array and String array are used to check input for correct/possible base.
+        charArray = new ArrayList<>();
+        stringArray = new ArrayList<>();
+        intArray = new ArrayList<>();
+        for(int i = 0; i <= 9; i++)
+        {
+            String s = String.valueOf(i);
+            charArray.add(s.charAt(0));
+        }
+        for(int i = 65; i <= 90; i++)
+        {
+            charArray.add((char)i);
+        }
+        for(int i = 0; i <= 35; i++)
+        {
+            String s = String.valueOf(i);
+            stringArray.add(s);
+            intArray.add(i);
+        }
+
+        add(numberLabel);
+        add(numberField);
+        add(currentBaseLabel);
+        add(currentBase);
+        add(newBaseLabel);
+        add(newBase);
+        add(decimalLabel);
+        add(decimalField);
+        add(directions);
+    }
 
     public double convertStringToDouble(String number)
     {
         double x = 0;
         for(int i = 0; i < number.length(); i++)
         {
-            for(int j = 0; j < numbers.length; j++)
+            for(int j = 0; j < charArray.size(); j++)
             {
-                if(number.charAt(i) == numbers[j])
+                if(number.charAt(i) == charArray.get(j))
                 {
                     x += intNumbers[j] * (Math.pow(10,number.length()-i));
                 }
@@ -57,7 +115,7 @@ public class BaseChangeGUI_Medium extends JPanel
                 double roundRemainder = Math.round((remainder*100))/100.0;
                 if(((round - roundRemainder)) % 1 == 0)
                 {
-                    output = numbers[i] + output;
+                    output = charArray.get(i) + output;
                     num = round - roundRemainder;
                     i = (int) divisor;
                 }
@@ -71,65 +129,26 @@ public class BaseChangeGUI_Medium extends JPanel
         double x = 0;
         double integerBase = 0;
         String convertedToDecimal = "";
-        for(int i = 0; i < numbers.length; i++)
+        for(int i = 0; i < charArray.size(); i++)
         {
-            if(base.equals(numberString[i]))
+            if(base.equals(stringArray.get(i)))
             {
-                integerBase = integers[i];
+                integerBase = intArray.get(i);
             }
         }
         for(int i = 0; i < number.length(); i++)
         {
-            for(int j = 0; j < numbers.length; j++)
+            for(int j = 0; j < charArray.size(); j++)
             {
-                if(number.charAt(i) == numbers[j])
+                if(number.charAt(i) == charArray.get(j))
                 {
-                    x += Math.pow(integerBase,number.length()-i) * integers[j];
+                    x += Math.pow(integerBase,number.length()-i) * intArray.get(j);
                 }
             }
         }
         x = x / integerBase;
         convertedToDecimal = String.format("%.0f",x);
         return convertedToDecimal;
-    }
-
-    public BaseChangeGUI_Medium()
-    {
-        super.setBackground(Color.LIGHT_GRAY);
-        numberLabel = new JLabel("Number");
-        numberField = new JTextField(20);
-        add(numberLabel);
-        add(numberField);
-
-
-        currentBaseLabel = new JLabel("Current Base");
-        newBaseLabel = new JLabel("New Base");
-        currentBase = new JTextField(20);
-        newBase = new JTextField(20);
-
-        currentBaseLabel.setLabelFor(currentBase);
-        newBaseLabel.setLabelFor(newBase);
-
-        add(currentBaseLabel);
-        add(currentBase);
-
-        add(newBaseLabel);
-        add(newBase);
-
-        decimalLabel = new JLabel("Output");
-        decimalField = new JTextField(20);
-        decimalField.setEditable(false);
-        add(decimalLabel);
-        add(decimalField);
-
-        directions = new JTextArea(2,5);
-        directions.setText("Press ENTER with cursor in \n'Number' input box.");
-        directions.setEditable(false);
-        add(directions);
-
-
-        KeyListenerText keyHandler = new KeyListenerText();
-        numberField.addKeyListener(keyHandler);
     }
 
     private class KeyListenerText implements KeyListener
@@ -148,17 +167,17 @@ public class BaseChangeGUI_Medium extends JPanel
             if(e.getKeyCode() == KeyEvent.VK_ENTER)
             {
                 decimalField.setText("");
-                for(int i = 0; i < numberString.length; i++)
+                for(int i = 0; i < stringArray.size(); i++)
                 {
-                    if(newBase.getText().equals(numberString[i]))
+                    if(newBase.getText().equals(stringArray.get(i)))
                     {
                         for(int j = 0; j < numberField.getText().length(); j++)
                         {
                             z = convertStringToDouble(currentBase.getText());
-                            for(double k = z; k < numberString.length; k++)
+                            for(double k = z; k < stringArray.size(); k++)
                             {
                                 int doubleToInt = (int) k;
-                                if(numberField.getText().charAt(j) == numbers[doubleToInt])
+                                if(numberField.getText().charAt(j) == charArray.get(doubleToInt))
                                 {
                                     correctNumber += 1;
                                 }
@@ -168,11 +187,11 @@ public class BaseChangeGUI_Medium extends JPanel
                 }
                 if(correctNumber == 0 && !newBase.getText().equals("10"))
                 {
-                    decimalField.setText(convertDecimalToBase(convertBaseToDecimal(numberField.getText(),currentBase.getText()),newBase.getText()));
+                    decimalField.setText(convertDecimalToBase(convertBaseToDecimal(numberField.getText().toUpperCase(),currentBase.getText()),newBase.getText()));
                 }
                 if(correctNumber == 0 && newBase.getText().equals("10"))
                 {
-                    decimalField.setText(convertBaseToDecimal(numberField.getText(),currentBase.getText()));
+                    decimalField.setText(convertBaseToDecimal(numberField.getText().toUpperCase(),currentBase.getText()));
                 }
                 if(correctNumber != 0)
                 {
