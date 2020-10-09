@@ -1,6 +1,3 @@
-// Zach Leali
-// Driver Program for ImageRotator
-
 import javax.swing.*;
 import java.awt.*;
 
