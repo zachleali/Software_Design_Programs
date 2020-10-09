@@ -1,14 +1,9 @@
-// A Class called LinkedList that has one attribute which is an object of Node class.
-// Zachary Leali
-// 9/9/2020
-
 /**
  * LinkedList is a class to create a linked list of Node objects
  * @see <a href="Node.html#section">Node</a>
  * @see <a href="S1_Computus_Hard.html#section">S1_Computus_Hard</a>
  * @see <a href="S1_Computus_Hard_Test.html#section">S1_Computus_Hard_Test</a>
  * @see <a href="S1ComputusHardJUnitTest.html#section">S1ComputusHardJUnitTest</a>
- * @author Zach Leali
  */
 public class LinkedList
 {
