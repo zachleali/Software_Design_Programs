@@ -1,6 +1,5 @@
 /**
  * Account is the super class to create a savings, checking, or loan account.
- * @author Zach Leali
  * @see <a href="SavingsAccount.html#section">SavingsAccount</a>
  * @see <a href="CheckingAccount.html#section">CheckingAccount</a>
  * @see <a href="LoanAccount.html#section">LoanAccount</a>
