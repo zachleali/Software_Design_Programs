@@ -1,6 +1,3 @@
-// Zachary Leali
-// 9/9/2020
-
 import java.lang.*;
 
 // The Computus class is used to create an object where the attributes are
