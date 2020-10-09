@@ -1,7 +1,3 @@
-// Zach Leali
-// 9/25/2020
-// Program #3 ImageRotator_Hard
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -120,12 +116,12 @@ public class S22_ImageRotator_Hard extends JPanel
         {
             // The path of the image file is the path of the file by right clicking on Golem.jpg and copying file path.
             // uses ImageIO so that Graphics2D can be used on the buffered image.
-            golem = ImageIO.read(new File("/iahome/z/zl/zleali/Desktop/zleali_swd/oral_exam1/S22_ImageRotator_Hard/src/Golem.jpg"));
+            golem = ImageIO.read(new File(/*FileName*/);
 
         }
         catch(IOException e)
         {
-            System.out.println("Can't find file.");
+            System.out.println("Can't find file."); 
         }
         golemLabel = new JLabel(new ImageIcon(golem));
     }
