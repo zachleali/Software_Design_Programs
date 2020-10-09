@@ -4,7 +4,6 @@
  * @see <a href="S1_Computus_Hard.html#section">S1_Computus_Hard</a>
  * @see <a href="S1_Computus_Hard_Test.html#section">S1_Computus_Hard_Test</a>
  * @see <a href="S1ComputusHardJUnitTest.html#section">S1ComputusHardJUnitTest</a>
- * @author Zach Leali
  */
 public class Node
 {
