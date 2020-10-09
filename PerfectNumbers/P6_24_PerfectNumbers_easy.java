@@ -1,9 +1,5 @@
 import java.lang.*;
 
-/**
- * PerfectNumbers is a class specifically designed to test whether a number is a perfect number.
- * @author Zach Leali
- */
 public class P6_24_PerfectNumbers_easy
 {
     /**
