@@ -1,6 +1,3 @@
-//  Zachary Leali
-//  9/9/2020
-
 import java.util.*;
 
 // Main program that allows the user to enter a year and it will print out
