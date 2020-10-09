@@ -1,7 +1,3 @@
-// Zachary Leali
-// 9/9/2020
-// Class Node that creates a node object with three different attributes and points to the next node if not null.
-
 /**
  * Node is a class that is used to create new nodes for
  * @see <a href="LinkedList.html#section">LinkedList</a>
