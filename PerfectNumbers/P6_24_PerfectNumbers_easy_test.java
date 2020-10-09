@@ -1,6 +1,3 @@
-//Name: Zach Leali
-//Date: 9/11/2020
-
 import java.lang.*;
 import java.util.*;
 
