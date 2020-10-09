@@ -4,7 +4,7 @@ A collection of the programs written for Introduction to Software Design at The 
 ## Program 1: BankInheritance
 BankInheritance demonstrates inheritance in java.  The program simulates a banker(the user) who can create three different bank accounts: Savings Account, Checking Account, and Loan Account.  The Account class is the super class with the savings, checking, and loan accounts being the subclasses.
 
-## Program 2: BaseChangeGUI_Medium
+## Program 2: BaseChangeGUI
 BaseChangeGUI uses java swing to create a GUI that allows a user convert a number to any base from base 2 to base 32.  As of right now, the program does not convert between bases
 for numbers with decimals.  
 
