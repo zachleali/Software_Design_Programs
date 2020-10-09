@@ -9,7 +9,6 @@ import java.util.*;
  * @see <a href="S1_Computus_Hard.html#section">S1_Computus_Hard</a>
  * @see <a href="LinkedList.html#section">LinkedList</a>
  * @see <a href="S1ComputusHardJUnitTest.html#section">S1ComputusHardJUnitTest</a>
- * @author Zachary Leali
  *
  */
 public class S1_Computus_Hard_Test
