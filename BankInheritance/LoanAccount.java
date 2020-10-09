@@ -1,6 +1,5 @@
 /**
  * Subclass of the Account class that creates a loan account object with super class Account.
- * @author Zach Leali
  * @see <a href="SavingsAccount.html#section">SavingsAccount</a>
  * @see <a href="CheckingAccount.html#section">CheckingAccount</a>
  * @see <a href="Account.html#section">Account</a>
