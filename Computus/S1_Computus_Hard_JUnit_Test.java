@@ -3,8 +3,6 @@ import static org.junit.jupiter.api.Assertions.*;
 // Junit testing for the Computus class.
 // Number of tests: 20
 // Dates found at: https://www.census.gov/srd/www/genhol/easter500.html
-// Zachary Leali
-// 9/9/2020
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
