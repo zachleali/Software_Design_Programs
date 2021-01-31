@@ -1,0 +1,351 @@
+// Zach Leali
+// 10/29/2020
+// S5_Scoreboard_Hard
+
+import java.util.Scanner;
+
+public class S5_Scoreboard_Hard
+{
+    public static void main(String [] args)
+    {
+        // variables to set based on user input
+        int userInput = 0;
+        boolean selectTypeOfGame = true;
+        String[] typeOfGame = {"Football","BasketBall","Soccer","Hockey"};
+        String team1;
+        String team2;
+        Team homeTeam;
+        Team awayTeam;
+        Game game;
+        int menuChoice;
+        boolean menu;
+
+        // menu for user to choose a sport to play
+        while(selectTypeOfGame)
+        {
+            System.out.println("Select the type of game:");
+            for(int i = 0; i < 4; i++)
+            {
+                System.out.println((i+1) + ". " + typeOfGame[i]);
+            }
+            Scanner getInput = new Scanner(System.in);
+            System.out.print("Enter choice: ");
+            userInput = getInput.nextInt();
+            if(userInput >= 1 && userInput <= 4)
+            {
+                selectTypeOfGame = false;
+            }
+            else
+            {
+                System.out.println("Incorrect Input");
+            }
+        }
+
+        // user enters team names for home and away teams(team 1 and team 2)
+        Scanner getTeamName = new Scanner(System.in);
+        System.out.print("Enter Home Team: ");
+        team1 = getTeamName.next();
+        System.out.print("Enter Away Team: ");
+        team2 = getTeamName.next();
+        homeTeam = new Team(team1);
+        awayTeam = new Team(team2);
+
+
+        // football
+        if(userInput == 1)
+        {
+            game = new Football(homeTeam,awayTeam);
+            System.out.format("%s:  %d\n%s:  %d\nCurrent %s:  %d\n",game.getTeam1().getTeams(),game.getScoresForEachTeam()[0],game.getTeam2().getTeams(),game.getScoresForEachTeam()[1],game.getNameOfPeriod(),game.getCurrentPeriod());
+            // setting up game over
+            menu = true;
+            while(menu)
+            {
+                // printing out menu to console.
+                System.out.println("\nMenu:");
+                for(int i = 0; i < game.getScoringMethod().size()*2; i++)
+                {
+                    if(i < game.getScoringMethod().size())
+                    {
+                        System.out.format("%d. %s %s\n",(i+1),game.getTeam1().getTeams(),game.getScoringMethod().get(i).getName());
+                    }
+                    if(i >= game.getScoringMethod().size())
+                    {
+                        System.out.format("%d. %s %s\n",(i+1),game.getTeam2().getTeams(),game.getScoringMethod().get(i-game.getScoringMethod().size()).getName());
+                    }
+                }
+                System.out.println((game.getScoringMethod().size()*2+1)+ ". End " + game.getNameOfPeriod());
+                Scanner getMenuInput = new Scanner(System.in);
+                System.out.print("Enter Choice: ");
+                menuChoice = getMenuInput.nextInt();
+                // user chooses an option from menu
+                if((menuChoice != (game.getScoringMethod().size()*2+1)) && menuChoice <= game.getScoringMethod().size())
+                {
+                    game.addScore(game.getScoringMethod().get(menuChoice-1),game.getTeam1());
+                }
+                if((menuChoice != (game.getScoringMethod().size()*2+1)) && menuChoice > game.getScoringMethod().size())
+                {
+                    game.addScore(game.getScoringMethod().get(menuChoice-(game.getScoringMethod().size()+1)),game.getTeam2());
+                }
+                if(menuChoice == (game.getScoringMethod().size()*2+1))
+                {
+                    game.endCurrentPeriod();
+                    if(game.getCurrentPeriod() != 5)
+                    {
+                        System.out.format("End of the %d quarter.\nScore:\n%s: %d\n%s:  %d\n",game.getCurrentPeriod(),game.getTeam1().getTeams(),game.getScoresForEachTeam()[0],game.getTeam2().getTeams(),game.getScoresForEachTeam()[1]);
+
+                    }
+                    if(game.getCurrentPeriod() == 5) // the game is over when current period is one more than total periods of sport
+                    {
+                        String winningTeam;
+                        System.out.println("GAME OVER");
+                        if(game.getScoresForEachTeam()[0] > game.getScoresForEachTeam()[1])
+                        {
+                            winningTeam = game.getTeam1().getTeams();
+                            System.out.format("\nWinning Team: %s\nFinal Score:\n%s: %d\n%s:  %d",winningTeam,game.getTeam1().getTeams(),game.getScoresForEachTeam()[0],game.getTeam2().getTeams(),game.getScoresForEachTeam()[1]);
+                        }
+                        if(game.getScoresForEachTeam()[0] < game.getScoresForEachTeam()[1])
+                        {
+                            winningTeam = game.getTeam2().getTeams();
+                            System.out.format("\nWinning Team: %s\nFinal Score:\n%s: %d\n%s:  %d",winningTeam,game.getTeam1().getTeams(),game.getScoresForEachTeam()[0],game.getTeam2().getTeams(),game.getScoresForEachTeam()[1]);
+                        }
+                        if(game.getScoresForEachTeam()[0] == game.getScoresForEachTeam()[1])
+                        {
+                            System.out.format("\nTIE\nFinal Score:\n%s: %d\n%s:  %d",game.getTeam1().getTeams(),game.getScoresForEachTeam()[0],game.getTeam2().getTeams(),game.getScoresForEachTeam()[1]);
+
+                        }
+                    }
+                }
+                if(game.getCurrentPeriod() < 5) // when the game isn't over
+                {
+                    System.out.println("\n");
+                    System.out.format("%s:  %d\n%s:  %d\nCurrent %s:  %d\n",game.getTeam1().getTeams(),game.getScoresForEachTeam()[0],game.getTeam2().getTeams(),game.getScoresForEachTeam()[1],game.getNameOfPeriod(),game.getCurrentPeriod());
+                }
+                if(game.getCurrentPeriod() == 5) // the game is over and closes program.
+                {
+                    menu = false;
+                }
+            }
+        }
+
+
+        // basketball
+        if(userInput == 2)
+        {
+            game = new Basketball(homeTeam,awayTeam);
+            System.out.format("%s:  %d\n%s:  %d\nCurrent %s:  %d\n",game.getTeam1().getTeams(),game.getScoresForEachTeam()[0],game.getTeam2().getTeams(),game.getScoresForEachTeam()[1],game.getNameOfPeriod(),game.getCurrentPeriod());
+            menu = true;
+            while(menu)
+            {
+                System.out.println("\nMenu:");
+                for(int i = 0; i < game.getScoringMethod().size()*2; i++)
+                {
+                    if(i < game.getScoringMethod().size())
+                    {
+                        System.out.format("%d. %s %s\n",(i+1),game.getTeam1().getTeams(),game.getScoringMethod().get(i).getName());
+                    }
+                    if(i >= game.getScoringMethod().size())
+                    {
+                        System.out.format("%d. %s %s\n",(i+1),game.getTeam2().getTeams(),game.getScoringMethod().get(i-game.getScoringMethod().size()).getName());
+                    }
+                }
+                System.out.println((game.getScoringMethod().size()*2+1)+ ". End " + game.getNameOfPeriod());
+                Scanner getMenuInput = new Scanner(System.in);
+                System.out.print("Enter Choice: ");
+                menuChoice = getMenuInput.nextInt();
+                if((menuChoice != (game.getScoringMethod().size()*2+1)) && menuChoice <= game.getScoringMethod().size())
+                {
+                    game.addScore(game.getScoringMethod().get(menuChoice-1),game.getTeam1());
+                }
+                if((menuChoice != (game.getScoringMethod().size()*2+1)) && menuChoice > game.getScoringMethod().size())
+                {
+                    game.addScore(game.getScoringMethod().get(menuChoice-(game.getScoringMethod().size()+1)),game.getTeam2());
+                }
+                if(menuChoice == (game.getScoringMethod().size()*2+1))
+                {
+                    game.endCurrentPeriod();
+                    if(game.getCurrentPeriod() != 5)
+                    {
+                        System.out.format("End of the %d quarter.\nScore:\n%s: %d\n%s:  %d\n",game.getCurrentPeriod(),game.getTeam1().getTeams(),game.getScoresForEachTeam()[0],game.getTeam2().getTeams(),game.getScoresForEachTeam()[1]);
+
+                    }
+                    if(game.getCurrentPeriod() == 5)
+                    {
+                        String winningTeam;
+                        System.out.println("GAME OVER");
+                        if(game.getScoresForEachTeam()[0] > game.getScoresForEachTeam()[1])
+                        {
+                            winningTeam = game.getTeam1().getTeams();
+                            System.out.format("\nWinning Team: %s\nFinal Score:\n%s: %d\n%s:  %d",winningTeam,game.getTeam1().getTeams(),game.getScoresForEachTeam()[0],game.getTeam2().getTeams(),game.getScoresForEachTeam()[1]);
+                        }
+                        if(game.getScoresForEachTeam()[0] < game.getScoresForEachTeam()[1])
+                        {
+                            winningTeam = game.getTeam2().getTeams();
+                            System.out.format("\nWinning Team: %s\nFinal Score:\n%s: %d\n%s:  %d",winningTeam,game.getTeam1().getTeams(),game.getScoresForEachTeam()[0],game.getTeam2().getTeams(),game.getScoresForEachTeam()[1]);
+                        }
+                        if(game.getScoresForEachTeam()[0] == game.getScoresForEachTeam()[1])
+                        {
+                            System.out.format("\nTIE\nFinal Score:\n%s: %d\n%s:  %d",game.getTeam1().getTeams(),game.getScoresForEachTeam()[0],game.getTeam2().getTeams(),game.getScoresForEachTeam()[1]);
+
+                        }
+                    }
+                }
+                if(game.getCurrentPeriod() < 5)
+                {
+                    System.out.println("\n");
+                    System.out.format("%s:  %d\n%s:  %d\nCurrent %s:  %d\n",game.getTeam1().getTeams(),game.getScoresForEachTeam()[0],game.getTeam2().getTeams(),game.getScoresForEachTeam()[1],game.getNameOfPeriod(),game.getCurrentPeriod());
+                }
+                if(game.getCurrentPeriod() == 5)
+                {
+                    menu = false;
+                }
+            }
+        }
+
+
+        // Soccer
+        if(userInput == 3)
+        {
+            game = new Soccer(homeTeam,awayTeam);
+            System.out.format("%s:  %d\n%s:  %d\nCurrent %s:  %d\n",game.getTeam1().getTeams(),game.getScoresForEachTeam()[0],game.getTeam2().getTeams(),game.getScoresForEachTeam()[1],game.getNameOfPeriod(),game.getCurrentPeriod());
+            menu = true;
+            while(menu)
+            {
+                System.out.println("\nMenu:");
+                for(int i = 0; i < game.getScoringMethod().size()*2; i++)
+                {
+                    if(i < game.getScoringMethod().size())
+                    {
+                        System.out.format("%d. %s %s\n",(i+1),game.getTeam1().getTeams(),game.getScoringMethod().get(i).getName());
+                    }
+                    if(i >= game.getScoringMethod().size())
+                    {
+                        System.out.format("%d. %s %s\n",(i+1),game.getTeam2().getTeams(),game.getScoringMethod().get(i-game.getScoringMethod().size()).getName());
+                    }
+                }
+                System.out.println((game.getScoringMethod().size()*2+1)+ ". End " + game.getNameOfPeriod());
+                Scanner getMenuInput = new Scanner(System.in);
+                System.out.print("Enter Choice: ");
+                menuChoice = getMenuInput.nextInt();
+                if((menuChoice != (game.getScoringMethod().size()*2+1)) && menuChoice <= game.getScoringMethod().size())
+                {
+                    game.addScore(game.getScoringMethod().get(menuChoice-1),game.getTeam1());
+                }
+                if((menuChoice != (game.getScoringMethod().size()*2+1)) && menuChoice > game.getScoringMethod().size())
+                {
+                    game.addScore(game.getScoringMethod().get(menuChoice-(game.getScoringMethod().size()+1)),game.getTeam2());
+                }
+                if(menuChoice == (game.getScoringMethod().size()*2+1))
+                {
+                    game.endCurrentPeriod();
+                    if(game.getCurrentPeriod() != 3)
+                    {
+                        System.out.format("End of the %d half.\nScore:\n%s: %d\n%s:  %d\n",game.getCurrentPeriod(),game.getTeam1().getTeams(),game.getScoresForEachTeam()[0],game.getTeam2().getTeams(),game.getScoresForEachTeam()[1]);
+
+                    }
+                    if(game.getCurrentPeriod() == 3)
+                    {
+                        String winningTeam;
+                        System.out.println("GAME OVER");
+                        if(game.getScoresForEachTeam()[0] > game.getScoresForEachTeam()[1])
+                        {
+                            winningTeam = game.getTeam1().getTeams();
+                            System.out.format("\nWinning Team: %s\nFinal Score:\n%s: %d\n%s:  %d",winningTeam,game.getTeam1().getTeams(),game.getScoresForEachTeam()[0],game.getTeam2().getTeams(),game.getScoresForEachTeam()[1]);
+                        }
+                        if(game.getScoresForEachTeam()[0] < game.getScoresForEachTeam()[1])
+                        {
+                            winningTeam = game.getTeam2().getTeams();
+                            System.out.format("\nWinning Team: %s\nFinal Score:\n%s: %d\n%s:  %d",winningTeam,game.getTeam1().getTeams(),game.getScoresForEachTeam()[0],game.getTeam2().getTeams(),game.getScoresForEachTeam()[1]);
+                        }
+                        if(game.getScoresForEachTeam()[0] == game.getScoresForEachTeam()[1])
+                        {
+                            System.out.format("\nTIE\nFinal Score:\n%s: %d\n%s:  %d",game.getTeam1().getTeams(),game.getScoresForEachTeam()[0],game.getTeam2().getTeams(),game.getScoresForEachTeam()[1]);
+
+                        }
+                    }
+                }
+                if(game.getCurrentPeriod() < 3)
+                {
+                    System.out.println("\n");
+                    System.out.format("%s:  %d\n%s:  %d\nCurrent %s:  %d\n",game.getTeam1().getTeams(),game.getScoresForEachTeam()[0],game.getTeam2().getTeams(),game.getScoresForEachTeam()[1],game.getNameOfPeriod(),game.getCurrentPeriod());
+                }
+                if(game.getCurrentPeriod() == 3)
+                {
+                    menu = false;
+                }
+            }
+        }
+
+
+        // Hockey
+        if(userInput == 4)
+        {
+            game = new Hockey(homeTeam,awayTeam);
+            System.out.format("%s:  %d\n%s:  %d\nCurrent %s:  %d\n",game.getTeam1().getTeams(),game.getScoresForEachTeam()[0],game.getTeam2().getTeams(),game.getScoresForEachTeam()[1],game.getNameOfPeriod(),game.getCurrentPeriod());
+            menu = true;
+            while(menu)
+            {
+                System.out.println("\nMenu:");
+                for(int i = 0; i < game.getScoringMethod().size()*2; i++)
+                {
+                    if(i < game.getScoringMethod().size())
+                    {
+                        System.out.format("%d. %s %s\n",(i+1),game.getTeam1().getTeams(),game.getScoringMethod().get(i).getName());
+                    }
+                    if(i >= game.getScoringMethod().size())
+                    {
+                        System.out.format("%d. %s %s\n",(i+1),game.getTeam2().getTeams(),game.getScoringMethod().get(i-game.getScoringMethod().size()).getName());
+                    }
+                }
+                System.out.println((game.getScoringMethod().size()*2+1)+ ". End " + game.getNameOfPeriod());
+                Scanner getMenuInput = new Scanner(System.in);
+                System.out.print("Enter Choice: ");
+                menuChoice = getMenuInput.nextInt();
+                if((menuChoice != (game.getScoringMethod().size()*2+1)) && menuChoice <= game.getScoringMethod().size())
+                {
+                    game.addScore(game.getScoringMethod().get(menuChoice-1),game.getTeam1());
+                }
+                if((menuChoice != (game.getScoringMethod().size()*2+1)) && menuChoice > game.getScoringMethod().size())
+                {
+                    game.addScore(game.getScoringMethod().get(menuChoice-(game.getScoringMethod().size()+1)),game.getTeam2());
+                }
+                if(menuChoice == (game.getScoringMethod().size()*2+1))
+                {
+                    game.endCurrentPeriod();
+                    if(game.getCurrentPeriod() != 4)
+                    {
+                        System.out.format("End of the %d period.\nScore:\n%s: %d\n%s:  %d\n",game.getCurrentPeriod(),game.getTeam1().getTeams(),game.getScoresForEachTeam()[0],game.getTeam2().getTeams(),game.getScoresForEachTeam()[1]);
+
+                    }
+                    if(game.getCurrentPeriod() == 4)
+                    {
+                        String winningTeam;
+                        System.out.println("GAME OVER");
+                        if(game.getScoresForEachTeam()[0] > game.getScoresForEachTeam()[1])
+                        {
+                            winningTeam = game.getTeam1().getTeams();
+                            System.out.format("\nWinning Team: %s\nFinal Score:\n%s: %d\n%s:  %d",winningTeam,game.getTeam1().getTeams(),game.getScoresForEachTeam()[0],game.getTeam2().getTeams(),game.getScoresForEachTeam()[1]);
+                        }
+                        if(game.getScoresForEachTeam()[0] < game.getScoresForEachTeam()[1])
+                        {
+                            winningTeam = game.getTeam2().getTeams();
+                            System.out.format("\nWinning Team: %s\nFinal Score:\n%s: %d\n%s:  %d",winningTeam,game.getTeam1().getTeams(),game.getScoresForEachTeam()[0],game.getTeam2().getTeams(),game.getScoresForEachTeam()[1]);
+                        }
+                        if(game.getScoresForEachTeam()[0] == game.getScoresForEachTeam()[1])
+                        {
+                            System.out.format("\nTIE\nFinal Score:\n%s: %d\n%s:  %d",game.getTeam1().getTeams(),game.getScoresForEachTeam()[0],game.getTeam2().getTeams(),game.getScoresForEachTeam()[1]);
+                        }
+                    }
+                }
+                if(game.getCurrentPeriod() < 4)
+                {
+                    System.out.println("\n");
+                    System.out.format("%s:  %d\n%s:  %d\nCurrent %s:  %d\n",game.getTeam1().getTeams(),game.getScoresForEachTeam()[0],game.getTeam2().getTeams(),game.getScoresForEachTeam()[1],game.getNameOfPeriod(),game.getCurrentPeriod());
+                }
+                if(game.getCurrentPeriod() == 4)
+                {
+                    menu = false;
+                }
+            }
+        }
+    }
+}
