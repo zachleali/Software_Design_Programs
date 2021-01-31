@@ -79,6 +79,65 @@ Throughout the game, you must also draw a part of the hangman for each incorrect
 The program consists of two classes.  The main class called S21_HangmanGUI_Medium that extends JPanel and the driver class that initializes a JFrame and adds a S21_HangmanGUI_Medium object.  The main class simulates the hangman GUI.  A file called wordList.txt contains a number of words and each word is added to an ArrayList called wordList.  The constructor initializes the JPanels components which consists of five JLabels, two JTextFields, and two JButtons.  These components are then added to a new layout called newLayout that is a SpringLayout.  The text field letterGuessField and buttons restart and guessButton have action listeners added to them for when the user enters a letter to guess.  The constructor is also where the first word to guess is set and the lines for each letter of the word are added to an ArrayList wordLines that is a container for Line2D objects.  The method paintComponent is overridden to draw the hangman and the amount of the hangman is determined by the number of wrong characters the user has guessed.  There are two action listeners created as private classes.  The first is a KeyListener that waits for the user to press enter on their keyboard and it checks to see if the character is in the word to guess.  If it is not, than the number of wrong characters is incremented.  The repaint() method is then called and paintComponent(...) paints the correct amount of the hangman.  The second action listener implements ActionListener and allows the user to guess the entire word by entering it in the field corresponding to the button and restart the game.  The user can only guess the entire word once and if guess incorrectly the guess button's method setEnabled(Boolean) is set to false.  If the user guesses all of the letters correctly a message is displayed that they won, otherwise when the hangman is fully drawn to the panel, the panel displays game over.
 ### User Documentation
 Start the game by running the driver class S21_HangmanGUI_Driver.java.  The GUI that appears will display and simulate the game Hangman.  To enter a letter to guess you must enter where letters guesses go and press enter on the keyboard.  If you think you know the entire word, you can enter the full word in the field next to the guess button.  You are only allowed one full guess per game.  If the letter guessed is incorrect, the game will add another limb to the hangman starting with the head.  The game will also display the letters you have guessed incorrectly and the number of wins/losses you have acquired.  If the hangman reaches a full body, the game will end and a game over message will be displayed.  If you win, a winning message will be displayed.  The restart button restarts the game and changes the word and can be pressed at any moment of the game.
-## Program 7: Scoreboard 
+## Program 7: Scoreboard
+### Problem Statement
+For this problem, design a software scoreboard systems that can handle the following sports:
+* Football
+* Basketball
+* Hockey
+* Soccer
+
+Create a command line interface that allows the user to select a game from the list above and simulate a full game.  Each game must interactively keep score and the interface should be written in a generic way using polymorphism.  Game-specific code in interface is prohibited.  Each game must have there own scoring methods as well as functions for the user to set the names of the home and away teams for the game.  After the game is over, the output must show that the game is in fact over and must show the results.
+### Developer Documentation
+Each sport has its own class that extends the abstract class Game.  Abstract class game uses to instance variables that are class Team objects.  Each sport extending the class Game calls the super constructor inside its own to initialize the teams.  Each sport class must override the abstract methods from the abstract class and the methods are for getting the score, adding a score, ending current period, getting current period, getting scoring method, and returning the length and name of the period for the specific game.  Each addScore method takes in a ScoringMethod object and Team object as its arguments and uses these to add the specific score from the specific scoring method to the specific team.  The scoring methods are stored in an ArrayList that contains ScoringMethod objects.
+
+The ScoringMethod class contains only two instance variables, the method name and the score associated with that method name.  The class also has two public methods that are used to get the score of that method and get the name of the method.  Each sport class uses an ArrayList containing ScoringMethod objects.
+
+The main method S5_Scoreboard_Hard contains the interface where the user interacts.  The drivers method main simulates a game by using a series of while loops to set the current menu for the user.
+### User Documentation
+Start the game by running the S5_Scoreboard_Hard program.  The command line interface will then display the first menu.  From the list of sports displayed in the menu, type the number corresponding to the sport choice and press enter.  The game will then ask for team names for the home and away teams.  After entering the names, the game will start and a menu with a series of options will be displayed.  Each teams options are displayed and either team's options can be chosen.  After the user has chosen the end period option the number of times the game allows, the game will be over and the results will be displayed to the window.  To restart the game, run the program again.
+## Program 8: OrbitingPlanets
+### Problem Statement
+For this multithreading problem, create a GUI that allows a user to create a planet orbiting the center star.  A planet is added to the screen when the user left-clicks the screen.  Each planet must be its own thread.  The user must also be able to press keys 1-8 on the keyboard and for each key a moon begins to rotate around the planet.  Each planet can have no more than two moons and each moon must be its own thread.  
+
+### Developer Documentation
+The program consists of four classes:  Driver class, Moons class, Planets class, and S19_OrbitingPlanets_Hard class.
+S19_OribitingPlanets_Hard extends JPanel and implements Runnable.  The class implements Runnable so the event dispatch thread can wait for the moon and planet threads to update their positions on the screen.  The class uses ArrayLists to hold the Planet objects and Moon objects.  ExecutorService is initialized as a private instance variable and creates a new cached thread pool.  The executorService is used to execute a Planet object thread or a Moon object thread when the specific event is fired.  The distance of each planet thread is set as well as the moon distance from the planets.  A Timer is initialized and started in the constructor.  The private class MyKeyListener is implemented to allow the user to press any keys 1-8 and add up to two moons to a planet thread.  The number of moons per planet are kept track of by using two HashMaps that map the key on the key board to a moon thread.  The classes overridden method run() is used to synchronize the planet threads with the EDT and waits for the planet threads to notify the EDT.  The classes overridden paintComponent creates new Shapes for each planet/moon thread with the calculated position.  The threads notify the EDT when these values are updated so to smooth the simulation in the GUI.
+
+The Planet class implements Runnable.  The classes overridden run() method runs through a while loop that loops as long as the thread is running.  The x and y points are calculated and then the classes public methods setXpoint(..) and setYpoint(..) are called to set the x and y position.  The thread sleeps for 60ms so the GUI has time to process the events.  When the notify() method is called, the EDT than use the get methods for each planet threads x and y location and sets the location of that thread.
+
+The Moon class implements Runnable and calculates its x and y positions relative the the planet it is suppose to rotate.
+## User Documentation
+Run the program Driver.java.  A GUI will appear with a Star in the center of the screen.  By left-clicking with the mouse on the screen, you can add a planet to the screen that rotates the center star.  The maximum number of planets is equal to eight.  By using keys 1-8 on the keyboard, you can add up to two moons to each planet where the moons rotate the planets while the planets rotate the center star.
+
+Note: Moons cannot be created unless the corresponding planet is created first.
+## Program 9: MorseCode
+### Problem Statement
+For this problem, write an application that reads an English-language statement and converts it to Morse code.  The application must also be able to convert a Morse code statement back into an English-language statement.  Use one blank between each Morse-coded letter and three blanks between each Morse-coded word.
+
+
+### Developer Documentation
+The program consists of a driver class and two other classes.  The first class, MorseCode.java, has two private final static HashMap containers.  The first HashMap called morseToEnglishHashMap has Character as its keys and String as its values. This map is for mapping English letters to its Morse-code equivalent.  The second map is has String keys and Character values and is used for mapping Morse-code letters to the English-language equivalent.  The class constructor adds all of the keys/values to the HashMaps.  The class also has public methods that return a StringBuilder object.  The first method, convertEnglishToMorse(..) takes a String as input and returns a StringBuilder containing the Morse-code equivalent.  The second method, convertMorseToEnglish(..) takes a String as input and returns a StringBuilder containing the English-language equivalent.
+
+MorseCode_Medium extends JPanel and initializes the main components of the GUI.  The constructor initializes the components and adds them to a custom GroupLayout.  The method also creates a MorseCode object to convert the user input.  There is one JTextField for converting Morse-code to English and one JTextField for converting English to Morse-code.  Both fields have Keylisteners and when the user presses enter the outputText and set to the return value of the MorseCode() object variable converter's method call.
+### User Documentation
+To start the program run the Driver class.  When the GUI appears, there will be two boxes to enter text.  The boxes are labeled with the label just above each box.  To convert English-language text to Morse-code you must type into the field some English text and then press enter on the keyboard.  To convert a Morse-code text to English use the box with the correct label.  The conversion will appear above both of the boxes.
+## Program 10: CheckWriter
+### Problem Statement
+For this program, create an application where a user can input a numeric check amount that's less than 1000 dollars and displays the word equivalent of the amount (i.e. 123.45 or 829.40).
+
+### Developer Documentation
+This is a JavaFX program.  The class CheckWriter_GUI extends Application is the main class.  The class has two HashMap containers, an ArrayList, and a TextField.  There is also a file called myWords.txt that have the numbers 1-100 and their word equivalents.  HashMap one and two are both filled in the setMapping() method.  The file of numbers and their word equivalents are read in and set as the keys and values of the first HashMap called mapping.  The second HashMap, mapping2, only has one key and one value and is for allowing inputs such as 800.00 or 200.33 to print out correctly.  The createDisplay() method initializes TextField and a TextArea and adds these to a new VBox for display purposes.  The VBox is then added to a new Scene.  The method then returns the new Scene.  
+
+The method numberToString(char[] myChars) is the method that converts the user input number to the word equivalent.  The input character array gets iterated by multiples of three to create new character arrays with values equal to the original arrays multiple of three positions.  These character arrays are then added to an ArrayList that contains character arrays.  Each array is then iterated through and the values are mapped to the correct word equivalent and added to a string.  The string is then returned and used as the value to set the TextArea of the GUI.   
+
+In the overrideen start method, the primaryStage argument calls the setScene(..) method and sets the Stages scene to the return value of method createDisplay().  The stage then calls the show() method to start the display the GUI.  The main method is used to launch the application.
+### User Documentation
+To run this program, run CheckWriter_GUI.  Once the GUI appears, you can enter a number in the field.  The number must be in a specific format. 
+
+Acceptable formats ("123.00" , "423.55").
+
+Unacceptable formats("112", "39").
+
 
 
