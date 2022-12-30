@@ -6,6 +6,7 @@
  */
 public class Account
 {
+    /** Adding test for codeQL workflow */
     /** The balance of the specific account */
     private double balance;                 // checkings, savings, and loan accounts all have balance variables
     /** The account number of the specific account */
